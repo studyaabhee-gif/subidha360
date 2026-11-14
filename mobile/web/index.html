@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare fair quotes from local home service providers in Nepal. Your payment stays on hold until the job is done.">
+  <meta name="theme-color" content="#1565D8">
+  <meta property="og:title" content="Subidha360: home services with fair, competing prices">
+  <meta property="og:description" content="Post your job, compare bids from nearby providers, and pay only when the work is done.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Subidha360">
+  <meta property="og:locale" content="en_NP">
+  <meta property="og:image" content="icons/share.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Subidha360">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Subidha360: home services in Nepal</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    html, body { margin: 0; height: 100%; background: #F6F9FE; }
+    #boot { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+    #boot div { width: 34px; height: 34px; border-radius: 50%; border: 3px solid #1565D833; border-top-color: #1565D8; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    /* Readable by search engines, which cannot read text Flutter draws.
+       Visually hidden, and removed once the app has drawn. */
+    #seo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  </style>
+</head>
+<body>
+  <!-- Shown until Flutter draws its first frame. -->
+  <div id="boot"><div></div></div>
+  <main id="seo">
+    <h1>Subidha360: fair quotes from local home service experts in Nepal</h1>
+    <p>Tell us the problem. Nearby providers compete for the job with their own prices,
+      and your payment stays on hold until the work is done. Every job comes with a
+      30-day guarantee.</p>
+    <h2>Services</h2>
+    <ul>
+      <li><a href="/services/plumbing">Plumbing: leaking taps, blocked drains, water pumps and tank cleaning</a></li>
+      <li><a href="/services/electrical">Electrical: power faults, fans and lights, inverters and wiring</a></li>
+      <li><a href="/services/cleaning">Cleaning: full home deep cleans, bathrooms, sofas and carpets</a></li>
+      <li><a href="/services/carpentry">Carpentry: doors and locks, furniture repair and assembly</a></li>
+      <li><a href="/services/painting">Painting: rooms, damp and seepage repair</a></li>
+      <li><a href="/services/appliances">Appliances: washing machines, fridges, geysers and AC servicing</a></li>
+      <li><a href="/services/computer">Computer and Wi-Fi: laptops, routers and printers</a></li>
+      <li><a href="/services/pest-control">Pest control: cockroaches, ants and termites</a></li>
+    </ul>
+    <p><a href="/guarantee">Our 30-day guarantee</a> · <a href="/become-provider">Become a provider</a>
+      · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · <a href="/refunds">Refunds</a></p>
+  </main>
+  <noscript>Subidha360 needs JavaScript turned on.</noscript>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      ['boot', 'seo'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.remove();
+      });
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

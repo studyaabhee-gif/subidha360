@@ -1,0 +1,33 @@
+# Secrets and local settings
+.env
+*.env
+!.env.example
+deploy/.env
+*service-account*.json
+*firebase-adminsdk*.json
+key.properties
+*.jks
+*.keystore
+*.pem
+
+# Editor and tool folders
+.claude/
+.vscode/
+.idea/
+*.iml
+
+# Database dumps from the backup command
+backups/
+*.archive
+*.gz
+
+# Internal working notes
+docs/photo-brief.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Preview comparison leftovers
+mobile/test/previews/failures/
+mobile/test/previews/out/

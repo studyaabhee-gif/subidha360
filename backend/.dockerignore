@@ -1,0 +1,6 @@
+# Keep secrets, local builds and tests out of the image.
+*.env
+.env*
+backups/
+**/*_test.go
+run.ps1

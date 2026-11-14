@@ -1,0 +1,38 @@
+# One server: Caddy serves the website and HTTPS, and passes /v1 to the API.
+# MongoDB (Atlas) and Redis (Upstash) stay hosted, so this machine holds no
+# data and can be rebuilt at any time.
+#
+#   cp .env.example .env      # then fill it in
+#   docker compose up -d --build
+services:
+  api:
+    build: ../backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      TRUST_PROXY: "1"
+      SITE_URL: https://${SITE_DOMAIN}
+    healthcheck:
+      test: ["CMD", "/app/api", "-healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    # Not published: only Caddy reaches it.
+    expose: ["8080"]
+
+  caddy:
+    image: caddy:2.10
+    restart: unless-stopped
+    depends_on: [api]
+    ports: ["80:80", "443:443", "443:443/udp"]
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ../mobile/build/web:/srv/web:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

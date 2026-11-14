@@ -1,0 +1,48 @@
+# Caddy gets and renews the HTTPS certificate for SITE_DOMAIN by itself.
+{$SITE_DOMAIN} {
+	encode zstd gzip
+
+	# The development top-up creates money from nothing. It must never be
+	# reachable from the internet, whatever APP_ENV says.
+	handle /v1/dev/* {
+		respond 404
+	}
+
+	handle /v1/* {
+		reverse_proxy api:8080
+	}
+	handle /healthz {
+		reverse_proxy api:8080
+	}
+	# Built by the API from the live service list.
+	@seo path /robots.txt /sitemap.xml
+	handle @seo {
+		reverse_proxy api:8080
+	}
+
+	handle {
+		root * /srv/web
+		# Clean addresses like /services: unknown paths load the app, which
+		# then shows the right page.
+		try_files {path} /index.html
+		file_server
+
+		# The app's code files change name on every build, so they can be
+		# cached for long; index.html must always be fresh.
+		@app path /index.html /flutter_bootstrap.js /flutter_service_worker.js /version.json
+		header @app Cache-Control "no-cache"
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(self)"
+		-Server
+	}
+}
+
+# Visitors who type www get sent to the main address.
+www.{$SITE_DOMAIN} {
+	redir https://{$SITE_DOMAIN}{uri} permanent
+}
