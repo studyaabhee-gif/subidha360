@@ -1,0 +1,45 @@
+# Netlify builds and hosts the Flutter web app. The Go backend is hosted
+# separately; set API_BASE_URL in Netlify (Site configuration > Environment
+# variables) to its address, e.g. https://api.subidha360.com, then redeploy.
+
+[build]
+  base = "mobile"
+  publish = "build/web"
+  command = """
+    git clone https://github.com/flutter/flutter.git --branch 3.47.9 --depth 1 "$HOME/flutter" &&
+    export PATH="$HOME/flutter/bin:$PATH" &&
+    flutter config --no-analytics &&
+    flutter pub get &&
+    flutter build web --release ${API_BASE_URL:+--dart-define=API_BASE_URL=$API_BASE_URL}
+  """
+
+# The app uses clean addresses like /services/plumbing. Every page is served
+# by index.html, so opening or refreshing any address works.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Files with a version in their contents can be cached; the entry files must
+# always be fresh so a new release reaches everyone.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/flutter_service_worker.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
